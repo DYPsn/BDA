@@ -1,0 +1,68 @@
+6. Installation and Configuration of Apache Spark
+############
+ 
+STEP 1 — Verify Java
+ 
+-----------------
+java -version
+-----------------
+ 
+STEP 2 — Download Spark
+ 
+Download:
+Spark 3.5.x pre-built for Hadoop 3
+ 
+STEP 3 — Extract Spark
+ 
+Extract to:
+-----------------
+C:\Spark
+-----------------
+ 
+STEP 4 — Set JAVA_HOME
+ 
+-----------------
+C:\Program Files\Java\jdk1.8.0_xxx
+-----------------
+ 
+STEP 5 — Set SPARK_HOME
+ 
+-----------------
+C:\Spark\spark
+-----------------
+ 
+STEP 6 — Add to PATH
+ 
+-----------------
+C:\Spark\spark\bin
+-----------------
+ 
+STEP 7 — Verify Spark
+ 
+-----------------
+spark-shell
+-----------------
+ 
+Expected:
+-----------------
+Spark context available as sc
+Spark session available as spark
+-----------------
+ 
+STEP 8 — Test Spark Commands
+ 
+-----------------
+10 + 20
+ 
+val numbers = sc.parallelize(Array(1,2,3,4,5))
+ 
+numbers.collect()
+ 
+numbers.map(x => x * 2).collect()
+-----------------
+ 
+STEP 9 — Exit Spark
+ 
+-----------------
+:quit
+-----------------
