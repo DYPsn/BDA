@@ -1,0 +1,285 @@
+############
+1. Installation and Configuration of Hadoop on Ubuntu 20.04
+############
+ 
+Environment:
+- Ubuntu 20.04
+- Hadoop 3.3.6
+- Java 8
+ 
+COMPLETE FLOW:
+1. Install Java
+2. Create Hadoop user
+3. Configure SSH
+4. Download Hadoop
+5. Extract Hadoop
+6. Configure environment variables
+7. Configure Hadoop XML files
+8. Create NameNode/DataNode folders
+9. Format NameNode
+10. Start Hadoop services
+11. Verify services
+12. Test HDFS
+ 
+STEP 1 — Update Ubuntu
+ 
+-----------------
+sudo apt update
+sudo apt upgrade -y
+-----------------
+ 
+STEP 2 — Install Java
+ 
+-----------------
+sudo apt install openjdk-8-jdk -y
+java -version
+-----------------
+ 
+STEP 3 — Check JAVA_HOME Path
+ 
+-----------------
+readlink -f $(which java)
+-----------------
+ 
+Example Output:
+-----------------
+/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+-----------------
+ 
+JAVA_HOME:
+-----------------
+/usr/lib/jvm/java-8-openjdk-amd64
+-----------------
+ 
+STEP 4 — Create Hadoop User
+ 
+-----------------
+sudo adduser hadoop
+sudo usermod -aG sudo hadoop
+su - hadoop
+-----------------
+ 
+STEP 5 — Install SSH
+ 
+-----------------
+sudo apt install openssh-server openssh-client -y
+ssh localhost
+-----------------
+ 
+STEP 6 — Configure Passwordless SSH
+ 
+-----------------
+ssh-keygen -t rsa -P ""
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 640 ~/.ssh/authorized_keys
+ssh localhost
+-----------------
+ 
+STEP 7 — Download Hadoop
+ 
+-----------------
+cd ~/Downloads
+wget https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
+-----------------
+ 
+STEP 8 — Extract Hadoop
+ 
+-----------------
+tar -xvzf hadoop-3.3.6.tar.gz
+-----------------
+ 
+STEP 9 — Move Hadoop
+ 
+-----------------
+sudo mv hadoop-3.3.6 /usr/local/hadoop
+sudo chown -R hadoop:hadoop /usr/local/hadoop
+-----------------
+ 
+STEP 10 — Configure Environment Variables
+ 
+-----------------
+nano ~/.bashrc
+-----------------
+ 
+Add:
+-----------------
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export HADOOP_HOME=/usr/local/hadoop
+ 
+export HADOOP_INSTALL=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export YARN_HOME=$HADOOP_HOME
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+ 
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+-----------------
+ 
+Apply:
+-----------------
+source ~/.bashrc
+hadoop version
+-----------------
+ 
+STEP 11 — Configure hadoop-env.sh
+ 
+-----------------
+cd /usr/local/hadoop/etc/hadoop
+nano hadoop-env.sh
+-----------------
+ 
+Replace:
+-----------------
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+-----------------
+ 
+STEP 12 — Configure core-site.xml
+ 
+-----------------
+nano core-site.xml
+-----------------
+ 
+Add:
+-----------------
+<configuration>
+ 
+<property>
+<name>fs.defaultFS</name>
+<value>hdfs://localhost:9000</value>
+</property>
+ 
+</configuration>
+-----------------
+ 
+STEP 13 — Configure hdfs-site.xml
+ 
+-----------------
+nano hdfs-site.xml
+-----------------
+ 
+Add:
+-----------------
+<configuration>
+ 
+<property>
+<name>dfs.replication</name>
+<value>1</value>
+</property>
+ 
+<property>
+<name>dfs.name.dir</name>
+<value>file:///home/hadoop/hdfs/namenode</value>
+</property>
+ 
+<property>
+<name>dfs.data.dir</name>
+<value>file:///home/hadoop/hdfs/datanode</value>
+</property>
+ 
+</configuration>
+-----------------
+ 
+STEP 14 — Configure mapred-site.xml
+ 
+-----------------
+cp mapred-site.xml.template mapred-site.xml
+nano mapred-site.xml
+-----------------
+ 
+Add:
+-----------------
+<configuration>
+ 
+<property>
+<name>mapreduce.framework.name</name>
+<value>yarn</value>
+</property>
+ 
+</configuration>
+-----------------
+ 
+STEP 15 — Configure yarn-site.xml
+ 
+-----------------
+nano yarn-site.xml
+-----------------
+ 
+Add:
+-----------------
+<configuration>
+ 
+<property>
+<name>yarn.nodemanager.aux-services</name>
+<value>mapreduce_shuffle</value>
+</property>
+ 
+</configuration>
+-----------------
+ 
+STEP 16 — Create NameNode and DataNode Directories
+ 
+-----------------
+cd ~
+mkdir -p hdfs/namenode
+mkdir -p hdfs/datanode
+-----------------
+ 
+STEP 17 — Format NameNode
+ 
+-----------------
+hdfs namenode -format
+-----------------
+ 
+STEP 18 — Start Hadoop
+ 
+-----------------
+start-dfs.sh
+start-yarn.sh
+-----------------
+ 
+STEP 19 — Verify Services
+ 
+-----------------
+jps
+-----------------
+ 
+Expected:
+-----------------
+NameNode
+DataNode
+SecondaryNameNode
+ResourceManager
+NodeManager
+Jps
+-----------------
+ 
+STEP 20 — Open Hadoop UI
+ 
+-----------------
+http://localhost:9870
+http://localhost:8088
+-----------------
+ 
+STEP 21 — Test HDFS
+ 
+-----------------
+hdfs dfs -mkdir /testdir
+hdfs dfs -ls /
+-----------------
+ 
+STEP 22 — Upload File
+ 
+-----------------
+echo "Hello Hadoop" > sample.txt
+hdfs dfs -put sample.txt /testdir
+hdfs dfs -ls /testdir
+hdfs dfs -cat /testdir/sample.txt
+-----------------
+ 
+STEP 23 — Stop Hadoop
+ 
+-----------------
+stop-yarn.sh
+stop-dfs.sh
+-----------------
