@@ -1,0 +1,99 @@
+3. Installation of R and RStudio
+############
+ 
+STEP 1 — Update Ubuntu
+ 
+-----------------
+sudo apt update
+sudo apt upgrade -y
+-----------------
+ 
+STEP 2 — Install Dependencies
+ 
+-----------------
+sudo apt install software-properties-common dirmngr apt-transport-https wget ca-certificates gnupg -y
+-----------------
+ 
+STEP 3 — Add CRAN Key
+ 
+-----------------
+wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+-----------------
+ 
+STEP 4 — Add R Repository
+ 
+-----------------
+sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/"
+-----------------
+ 
+STEP 5 — Update Packages
+ 
+-----------------
+sudo apt update
+-----------------
+ 
+STEP 6 — Install R
+ 
+-----------------
+sudo apt install r-base -y
+-----------------
+ 
+STEP 7 — Verify R
+ 
+-----------------
+R --version
+-----------------
+ 
+STEP 8 — Open R Console
+ 
+-----------------
+R
+-----------------
+ 
+STEP 9 — Test Commands
+ 
+-----------------
+print("Hello World")
+5 + 10
+x <- 100
+x
+-----------------
+ 
+STEP 10 — Exit R
+ 
+-----------------
+q()
+-----------------
+ 
+STEP 11 — Download RStudio
+ 
+-----------------
+cd ~/Downloads
+wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2024.12.1-563-amd64.deb
+-----------------
+ 
+STEP 12 — Install RStudio
+ 
+-----------------
+sudo dpkg -i rstudio-2024.12.1-563-amd64.deb
+-----------------
+ 
+STEP 13 — Fix Dependencies
+ 
+-----------------
+sudo apt --fix-broken install -y
+sudo dpkg -i rstudio-2024.12.1-563-amd64.deb
+-----------------
+ 
+STEP 14 — Launch RStudio
+ 
+-----------------
+rstudio
+-----------------
+ 
+STEP 15 — Run R Script
+ 
+-----------------
+print("Big Data Analytics Practical")
+-----------------
+ 
