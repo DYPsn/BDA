@@ -1,0 +1,143 @@
+###########
+7. Reading Multiple Text Files into Single RDD using Apache Spark
+############
+ 
+STEP 1 — Start Spark
+ 
+-----------------
+spark-shell
+-----------------
+ 
+STEP 2 — Create Input Directory
+ 
+Windows:
+-----------------
+mkdir C:\SparkFiles
+-----------------
+ 
+Ubuntu:
+-----------------
+mkdir ~/SparkFiles
+-----------------
+ 
+STEP 3 — Create Text Files
+ 
+file1.txt
+-----------------
+Hello Spark
+Big Data Analytics
+Apache Hadoop
+-----------------
+ 
+file2.txt
+-----------------
+Apache Spark
+RDD Operations
+Machine Learning
+-----------------
+ 
+file3.txt
+-----------------
+Big Data
+Spark Streaming
+Data Science
+-----------------
+ 
+STEP 4 — Verify Files
+ 
+Windows:
+-----------------
+dir
+-----------------
+ 
+Ubuntu:
+-----------------
+ls
+-----------------
+ 
+STEP 5 — Read Multiple Files into Single RDD
+ 
+Windows:
+-----------------
+val textRDD = sc.textFile("C:/SparkFiles/*.txt")
+-----------------
+ 
+Ubuntu:
+-----------------
+val textRDD = sc.textFile("file:///home/hadoop/SparkFiles/*.txt")
+-----------------
+ 
+STEP 6 — Display RDD Contents
+ 
+-----------------
+textRDD.collect()
+-----------------
+ 
+STEP 7 — Count Lines
+ 
+-----------------
+textRDD.count()
+-----------------
+ 
+STEP 8 — Display First Line
+ 
+-----------------
+textRDD.first()
+-----------------
+ 
+STEP 9 — Take First 5 Lines
+ 
+-----------------
+textRDD.take(5)
+-----------------
+ 
+STEP 10 — Convert to Uppercase
+ 
+-----------------
+val upperRDD = textRDD.map(line => line.toUpperCase())
+ 
+upperRDD.collect()
+-----------------
+ 
+STEP 11 — Filter Lines
+ 
+-----------------
+val sparkRDD = textRDD.filter(
+  line => line.contains("Spark")
+)
+ 
+sparkRDD.collect()
+-----------------
+ 
+STEP 12 — Split Words
+ 
+-----------------
+val wordsRDD = textRDD.flatMap(
+  line => line.split(" ")
+)
+ 
+wordsRDD.collect()
+-----------------
+ 
+STEP 13 — Count Words
+ 
+-----------------
+wordsRDD.count()
+-----------------
+ 
+STEP 14 — Save Output
+ 
+Windows:
+-----------------
+upperRDD.saveAsTextFile("C:/SparkOutput")
+-----------------
+ 
+Ubuntu:
+-----------------
+textRDD.saveAsTextFile("file:///home/hadoop/SparkOutput")
+-----------------
+ 
+STEP 15 — Exit Spark
+ 
+-----------------
+:quit
