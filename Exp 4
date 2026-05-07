@@ -1,0 +1,93 @@
+4. Working with R Datasets and Tables
+############
+ 
+STEP 1 — Create Dataset
+ 
+-----------------
+student_data <- data.frame(
+  RollNo = c(1,2,3,4,5),
+  Name = c("Amit","Rahul","Sneha","Priya","Karan"),
+  Marks = c(85,90,78,88,92),
+  City = c("Pune","Mumbai","Delhi","Chennai","Kolkata")
+)
+ 
+student_data
+-----------------
+ 
+STEP 2 — Check Structure
+ 
+-----------------
+str(student_data)
+summary(student_data)
+-----------------
+ 
+STEP 3 — Write Dataset to CSV
+ 
+-----------------
+write.csv(student_data,
+          "student_dataset.csv",
+          row.names = FALSE)
+-----------------
+ 
+STEP 4 — Read Dataset
+ 
+-----------------
+new_data <- read.csv("student_dataset.csv")
+new_data
+-----------------
+ 
+STEP 5 — Create Table
+ 
+-----------------
+fruit <- c("Apple","Mango","Apple","Banana",
+           "Mango","Apple","Banana","Apple")
+ 
+fruit_table <- table(fruit)
+ 
+fruit_table
+-----------------
+ 
+STEP 6 — Convert Table to DataFrame
+ 
+-----------------
+fruit_df <- as.data.frame(fruit_table)
+fruit_df
+-----------------
+ 
+STEP 7 — Write Table to CSV
+ 
+-----------------
+write.csv(fruit_df,
+          "fruit_table.csv",
+          row.names = FALSE)
+-----------------
+ 
+STEP 8 — Read Table
+ 
+-----------------
+table_read <- read.csv("fruit_table.csv")
+table_read
+-----------------
+ 
+STEP 9 — Save RData File
+ 
+-----------------
+save(student_data,
+     fruit_table,
+     file = "mydata.RData")
+-----------------
+ 
+STEP 10 — Remove Objects
+ 
+-----------------
+rm(student_data)
+rm(fruit_table)
+ls()
+-----------------
+ 
+STEP 11 — Load RData File
+ 
+-----------------
+load("mydata.RData")
+ls()
+-----------------
