@@ -1,0 +1,115 @@
+5. Manipulating and Preprocessing Data in R
+############
+ 
+STEP 1 — Create Vectors
+ 
+-----------------
+roll_no <- c(1,2,3,4,5)
+ 
+name <- c("Amit","Rahul","Sneha",
+          "Priya","Karan")
+ 
+marks <- c(85,90,78,88,92)
+ 
+city <- c("Pune","Mumbai",
+          "Delhi","Chennai",
+          "Kolkata")
+-----------------
+ 
+STEP 2 — Create DataFrame
+ 
+-----------------
+student_data <- data.frame(
+  RollNo = roll_no,
+  Name = name,
+  Marks = marks,
+  City = city
+)
+ 
+student_data
+-----------------
+ 
+STEP 3 — Extract Data
+ 
+-----------------
+student_data$Name
+student_data[, c("Name","Marks")]
+student_data[3,]
+student_data[2,3]
+-----------------
+ 
+STEP 4 — Filter Rows
+ 
+-----------------
+student_data[student_data$Marks > 85, ]
+-----------------
+ 
+STEP 5 — Add Columns
+ 
+-----------------
+student_data$Grade <- c("B","A","C","B","A")
+student_data$Age <- c(20,21,19,22,20)
+student_data
+-----------------
+ 
+STEP 6 — Modify Column
+ 
+-----------------
+student_data$Marks <- student_data$Marks + 5
+-----------------
+ 
+STEP 7 — Rename Column
+ 
+-----------------
+colnames(student_data)[3] <- "TotalMarks"
+-----------------
+ 
+STEP 8 — Delete Column
+ 
+-----------------
+student_data$Age <- NULL
+-----------------
+ 
+STEP 9 — Add Missing Value
+ 
+-----------------
+student_data$TotalMarks[2] <- NA
+-----------------
+ 
+STEP 10 — Detect Missing Values
+ 
+-----------------
+is.na(student_data)
+sum(is.na(student_data))
+-----------------
+ 
+STEP 11 — Replace Missing Values
+ 
+-----------------
+student_data$TotalMarks[
+  is.na(student_data$TotalMarks)
+] <- mean(
+  student_data$TotalMarks,
+  na.rm = TRUE
+)
+-----------------
+ 
+STEP 12 — Sort Data
+ 
+-----------------
+sorted_data <- student_data[
+  order(-student_data$TotalMarks),
+]
+ 
+sorted_data
+-----------------
+ 
+STEP 13 — Save CSV
+ 
+-----------------
+write.csv(
+  student_data,
+  "processed_student_data.csv",
+  row.names = FALSE
+)
+-----------------
